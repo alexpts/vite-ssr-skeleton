@@ -4,7 +4,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run build:browser && npm run build:ssr",
+    "build:browser": "vite build --outDir ./dist/browser",
+    "build:ssr": "vite build --outDir ./dist/ssr --ssr src/entry-ssr.js --manifest --ssrManifest",
     "preview": "vite preview"
   },
   "dependencies": {

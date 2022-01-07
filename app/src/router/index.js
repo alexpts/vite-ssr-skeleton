@@ -1,7 +1,8 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory, createMemoryHistory } from 'vue-router';
 import HelloWorld from '../components/HelloWorld.vue';
 
-// baseUrl: import.meta.env.BASE_URL
+const isSsr = import.meta.env.SSR === true;
+const routerPrefix = import.meta.env.BASE_URL;
 
 const routes = [
     {
@@ -9,7 +10,6 @@ const routes = [
         name: 'home',
         component: HelloWorld,
         props: {msg: 'Hi' },
-        score: 100
     },
     {
         path: '/about/',
@@ -26,10 +26,12 @@ const routes = [
     },
 ];
 
-const router = createRouter({
-    history: createWebHistory(import.meta.env.BASE_URL),
-    routes,
-    strict: true
-});
-
-export default router;
+export default {
+    createRouter: () => {
+        const historyStore = isSsr ? createMemoryHistory(routerPrefix) : createWebHistory(routerPrefix);
+        return createRouter({
+            history: historyStore,
+            routes
+        });
+    }
+};
