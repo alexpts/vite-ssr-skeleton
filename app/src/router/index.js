@@ -12,6 +12,11 @@ const routes = [
         props: {msg: 'Hi' },
     },
     {
+        path: '/posts/',
+        name: 'posts',
+        component: () => import('../components/Posts.vue'),
+    },
+    {
         path: '/about/',
         name: 'about',
         // route level code-splitting
@@ -28,9 +33,9 @@ const routes = [
 
 export default {
     createRouter: () => {
-        const historyStore = isSsr ? createMemoryHistory(routerPrefix) : createWebHistory(routerPrefix);
+        const history = isSsr ? createMemoryHistory(routerPrefix) : createWebHistory(routerPrefix);
         return createRouter({
-            history: historyStore,
+            history,
             routes
         });
     }

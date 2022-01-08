@@ -6,7 +6,8 @@ const store = useStore()
 onServerPrefetch(() => {
     return new Promise(resolve => {
         store.commit('setCount', 10)
-        setTimeout(resolve, 2000)
+        //setTimeout(resolve, 2000)
+        resolve()
     })
 })
 

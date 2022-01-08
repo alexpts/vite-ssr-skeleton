@@ -1,6 +1,13 @@
 import { createApp } from './main.js'
 
-const { app, router } = createApp()
+const { app, router, store } = createApp()
 router.isReady().then(() => {
-    app.mount('#app');
+    let isFirst = true;
+    router.afterEach(() => {
+        if (isFirst) {
+            store.commit('isSsrInit', false)
+            isFirst = false
+        }
+    });
+    app.mount('#app', true);
 })

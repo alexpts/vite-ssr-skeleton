@@ -19,11 +19,22 @@ import HelloWorld from './HelloWorld.vue'
 
 <template>
     <nav>
+        <router-link :to="{name: 'posts'}">Posts</router-link> |
         <router-link :to="{name: 'home'}">Home</router-link> |
         <router-link :to="{name: 'about'}">About</router-link> |
         <router-link to="/asd">bad</router-link>
     </nav>
-    <router-view/>
+
+<!--    <router-view />-->
+    <router-view v-slot="{ Component }">
+        <suspense timeout="200">
+<!--        <suspense>-->
+            <component :is="Component"></component>
+            <template #fallback>
+                <span>Loading... Please wait.</span>
+            </template>
+        </suspense>
+    </router-view>
 </template>
 
 <style lang="sass">
