@@ -20,6 +20,7 @@ router.get('/:path', async(ctx, next) => {
 })
 
 app
+    // @todo proxy to api via prefix without nginx mode
     .use(compress({ // CPU bound
         threshold: 0,
         deflate: false,
