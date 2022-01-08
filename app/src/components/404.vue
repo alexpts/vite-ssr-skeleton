@@ -1,4 +1,14 @@
 <script setup>
+import {onServerPrefetch} from 'vue'
+import { useStore } from 'vuex'
+const store = useStore()
+
+onServerPrefetch(() => {
+    return new Promise(resolve => {
+        store.commit('setCount', 10)
+        setTimeout(resolve, 2000)
+    })
+})
 
 </script>
 

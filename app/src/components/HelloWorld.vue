@@ -1,12 +1,9 @@
 <script setup>
 import {ref} from 'vue'
 import { useStore } from 'vuex'
-
 import {COMMIT_COUNT_INCREMENT} from '../store/store.js'
 
 const store = useStore()
-
-//const apiUrl = import.meta.env.VITE_API_URL;
 const isSSR = import.meta.env.SSR;
 
 defineProps({
@@ -15,6 +12,10 @@ defineProps({
         required: true
     },
 })
+
+if (isSSR) {
+    store.commit('setCount', 10)
+}
 
 const count = ref(0)
 </script>

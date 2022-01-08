@@ -7,11 +7,16 @@ import { renderToString } from 'vue/server-renderer'
  * @return {Promise<string>}
  */
 export async function render(url, manifest) {
-    const { app, router } = createApp();
+    const { app, router, store } = createApp();
 
     await router.push(url)
     await router.isReady()
 
-    const context = {}
-    return renderToString(app, context)
+    let context = {};
+
+    let html = await renderToString(app, context)
+    // Init state for VUEX from server - __INITIAL_STATE__
+    html += `<script>window.__VUEX_INIT_STATE__ = ${JSON.stringify(store.state)};</script>`
+
+    return html;
 }
