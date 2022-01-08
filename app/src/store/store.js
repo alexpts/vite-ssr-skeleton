@@ -1,8 +1,10 @@
 export const COMMIT_COUNT_INCREMENT = 'incCount';
 
 export const rootStore = {
-    state: {
-        count: 4
+    state() {
+        return {
+            count: 4
+        }
     },
     mutations: {
         setCount(state, value) {
