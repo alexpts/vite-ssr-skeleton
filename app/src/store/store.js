@@ -7,13 +7,9 @@ export const rootStore = {
         return {
             count: 4,
             posts: [],
-            isSsrInit: true, // до первого перехода route
         }
     },
     mutations: {
-        isSsrInit(state, isSsr = true) {
-            state.isSsrInit = isSsr
-        },
         setCount(state, value) {
             state.count = value
         },

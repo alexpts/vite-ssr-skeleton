@@ -1,30 +1,32 @@
 <script setup>
-import { onServerPrefetch, onUnmounted, onBeforeMount, ref } from 'vue'
+import { onUnmounted } from 'vue'
 import { useStore } from 'vuex'
+import { init, initBrowser, initSSR } from '../plugin/ssr'
 
 const store = useStore()
 
-const init = async() => {
-    return await store.dispatch('test/fetch')
-}
+init(() => {
+    console.log('Init ALL')
+    return store.dispatch('test/fetch')
+}, {store});
 
-// ssr only
-onServerPrefetch(async () => {
-    store.commit('setCount', 10)
-    await init()
+initBrowser(() => {
+    console.log('browser only')
 })
 
-if (!import.meta.env.SSR && !store.state.isSsrInit) {
-    await init()
-}
+initSSR(() => {
+    store.commit('setCount', 10)
+    console.log('SSR only');
+})
 
 onUnmounted(() => {
-    store.commit('setPosts', []);
+    store.commit('setPosts', [])
 })
 </script>
 
 <template>
     <h1>Posts:</h1>
+    {{ store.state.ssr.isSsr }}
 
     {{ store.state.posts.length }}
 </template>

@@ -1,8 +1,9 @@
 import { createSSRApp } from 'vue'
+import { sync } from 'vuex-router-sync'
 import App from './components/App.vue'
 import routerFactory  from './router'
-import { createStore } from './store';
-import { sync } from 'vuex-router-sync'
+import { createStore } from './store'
+import ssrPlugin from './plugin/ssr/'
 
 const createApp = () => {
     const initStoreState = import.meta.env.SSR === false ? window.__VUEX_INIT_STATE__ : undefined
@@ -15,10 +16,14 @@ const createApp = () => {
         sync(store, router, {moduleName: '__route'})
     }
 
+    app.use(router)
+        .use(store)
+        .use(ssrPlugin, {router, store});
+
     return {
-        app: app.use(router).use(store),
-        router: router,
-        store: store
+        app,
+        router,
+        store
     }
 };
 
